@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">股价风险控制</string>
+    <string name="net_code_error">未查询到股票代码</string>
+    <string name="success">操作成功</string>
+</resources>
