@@ -1,15 +1,10 @@
 package com.lyl.sharescontrol.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.lyl.sharescontrol.MyApp;
@@ -25,12 +20,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MoreDataActivity extends AppCompatActivity {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
     @Bind(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
@@ -40,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_more_data);
         ButterKnife.bind(this);
 
         mData = new ArrayList<>();
@@ -57,16 +50,14 @@ public class MainActivity extends AppCompatActivity {
         mData.clear();
         ArrayList<ShareEntry> queryList = MyApp.liteOrm.query(ShareEntry.class);
         for (ShareEntry entry : queryList) {
-            if (!entry.isDelete()) {
-                mData.add(entry);
-            }
+            mData.add(entry);
         }
-        mAdapter.notifyDataSetChanged();
+        mAdapter.setData(mData);
     }
 
     private void initView() {
-        mAdapter = new SharePriceAdapter(MainActivity.this, mData);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        mAdapter = new SharePriceAdapter(MoreDataActivity.this, mData);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MoreDataActivity.this));
         recyclerView.setAdapter(mAdapter);
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -76,13 +67,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SetPriceActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void updateNowPrice() {
@@ -111,25 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.net_code_error, Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_more:
-                Intent intent = new Intent(MainActivity.this,MoreDataActivity.class);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

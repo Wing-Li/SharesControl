@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".activity.SetPriceActivity">
         </activity>
+        <activity android:name=".activity.MoreDataActivity">
+        </activity>
     </application>
 
 </manifest>

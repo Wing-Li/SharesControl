@@ -30,6 +30,11 @@ public class SharePriceAdapter extends RecyclerView.Adapter<SharePriceAdapter.My
         mData = data;
     }
 
+    public void setData(ArrayList<ShareEntry> data) {
+        mData = data;
+        notifyDataSetChanged();
+    }
+
     @Override
     public MyShareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_main, parent, false);
@@ -57,8 +62,7 @@ public class SharePriceAdapter extends RecyclerView.Adapter<SharePriceAdapter.My
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // 修改数据库的数据
-                                ShareEntry entry = new ShareEntry();
-                                entry.setId(share.getId());
+                                ShareEntry entry = share;
                                 entry.setDelete(true);
                                 MyApp.liteOrm.update(entry);
 
@@ -66,7 +70,7 @@ public class SharePriceAdapter extends RecyclerView.Adapter<SharePriceAdapter.My
                                 mData.remove(position);
 
                                 // 刷新页面
-                                notifyItemChanged(position);
+                                notifyDataSetChanged();
                                 dialogInterface.dismiss();
                             }
                         })//
