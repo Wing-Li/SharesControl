@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.lyl.sharescontrol.MyApp;
@@ -50,7 +51,9 @@ public class MoreDataActivity extends AppCompatActivity {
         mData.clear();
         ArrayList<ShareEntry> queryList = MyApp.liteOrm.query(ShareEntry.class);
         for (ShareEntry entry : queryList) {
-            mData.add(entry);
+            if (!TextUtils.isEmpty(entry.getCode())) {
+                mData.add(entry);
+            }
         }
         mAdapter.setData(mData);
     }

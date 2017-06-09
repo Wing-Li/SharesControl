@@ -218,16 +218,24 @@ public class SetPriceActivity extends AppCompatActivity {
     }
 
     private void compute(String p, String t, String l) {
-        float price = Float.parseFloat(p);
-        float tallR = Float.parseFloat(t);
-        float lowR = Float.parseFloat(l);
+        try {
+            float price = Float.parseFloat(p);
+            float tallR = Float.parseFloat(t);
+            float lowR = Float.parseFloat(l);
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.000");
+            if (price == 0 || tallR == 0 || lowR == 0) {
+                return;
+            }
 
-        float tR = price + price * tallR / 100;
-        shareTall.setText(String.valueOf(decimalFormat.format(tR)));
-        float lR = price - price * lowR / 100;
-        shareLow.setText(String.valueOf(decimalFormat.format(lR)));
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.000");
+
+            float tR = price + price * tallR / 100;
+            shareTall.setText(String.valueOf(decimalFormat.format(tR)));
+            float lR = price - price * lowR / 100;
+            shareLow.setText(String.valueOf(decimalFormat.format(lR)));
+        } catch (Exception e) {
+        }
     }
 
 }
